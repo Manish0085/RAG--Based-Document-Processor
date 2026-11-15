@@ -1,10 +1,6 @@
 server:
-  port: 8080
-
+  port: 8081
 spring:
-  application:
-    name: docmind
-
 #DB configurations
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:docmind}
@@ -22,7 +18,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 25MB
-      max-request-size: 50B
+      max-request-size: 50MB
 
 
 # llm configurations

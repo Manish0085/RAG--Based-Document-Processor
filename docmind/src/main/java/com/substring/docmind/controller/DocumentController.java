@@ -32,16 +32,16 @@ public class DocumentController {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Upload and index documents(DOCX, PDF, TEXT, CSV, MD")
-    public ResponseEntity<DocumentResponseDto> uploadDocument(
+    public ResponseEntity<ApiResponse <DocumentResponseDto>> uploadDocument(
             @RequestParam("file") MultipartFile file
     ) {
         DocumentResponseDto documentResponseDto = DocumentMetadataService.uploadAndProcess(file);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.<DocumentResponseDto>builder
+                .body(ApiResponse.<DocumentResponseDto>builder()
                         .success(true)
                         .message("Document Uploaded successfully")
                         .data(documentResponseDto)
-                        .timestamp(LocalDateTime.now())
+                        .timeStamp(LocalDateTime.now())
                         .build());
     }
 

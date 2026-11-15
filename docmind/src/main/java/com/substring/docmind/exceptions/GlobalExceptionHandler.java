@@ -96,7 +96,7 @@ public class GlobalExceptionHandler extends RuntimeException {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(IllegalArgumentException exception) {
+    public ResponseEntity<?> handleGenericException(Exception exception) {
         logger.warn("Illegal Argument: {}", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

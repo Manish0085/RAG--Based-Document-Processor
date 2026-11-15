@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,12 +22,12 @@ public class DocumentMetadataService implements com.substring.docmind.service.Do
 
     private static final Logger log = LoggerFactory.getLogger(DocumentMetadataService.class);
     private final DocumentMetadataRepository documentMetadataRepository;
-    private final DocumentParserService ParserService;
+    private final DocumentParserService parseService;
     private final DocumentIngestionService ingestionService;
     private final JdbcTemplate jdbcTemplate;
     @Override
     public DocumentResponseDto uploadAndProcess(MultipartFile file) {
-        String fileName = file.getName() != null ? file.getName() : "document";
+        String fileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : "document";
         String contentType = file.getContentType() != null ? file.getContentType() : "application/octet-stream";
 
         // Create Document Meta data
@@ -36,6 +37,7 @@ public class DocumentMetadataService implements com.substring.docmind.service.Do
                 .filename(fileName)
                 .contentType(contentType)
                 .status(DocumentStatus.UPLOADING)
+                .createdAt(LocalDateTime.now())
                 .build();
 
 
@@ -58,7 +60,7 @@ public class DocumentMetadataService implements com.substring.docmind.service.Do
                 .fileSize(documentMetadata.getFileSize())
                 .chunkCreated(chunkCreated)
                 .status(documentMetadata.getStatus())
-                .message("Document Successfully processed and chunked  ")
+                .message("Document Successfully processed and chunked")
                 .build();
     }
 }

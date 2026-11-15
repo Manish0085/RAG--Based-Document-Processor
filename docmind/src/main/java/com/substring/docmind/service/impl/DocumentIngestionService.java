@@ -92,10 +92,10 @@ public class DocumentIngestionService implements IDocumentIngestionService {
             return enrichedChunks.size();
         } catch(Exception exception) {
             log.info("Failed to ingest document into vector store: {}", metadata.getFilename(), exception);
+            metadata.setStatus(DocumentStatus.FAILED);
             metadata.setErrorMessage(exception.getMessage());
             documentMetadataRepository.save(metadata);
-            throw new DocumentsProcessingException("Failed to index document: " + exception.getMessage(), exception)
+            throw new DocumentsProcessingException("Failed to index document: " + exception.getMessage(), exception);
         }
-        return 0;
     }
 }
